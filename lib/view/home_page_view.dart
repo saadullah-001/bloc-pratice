@@ -12,39 +12,51 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
+  final HomepageBloc _homepageBloc = HomepageBloc();
   @override
   Widget build(BuildContext context) {
-    debugPrint("build");
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BlocBuilder<HomepageBloc, HomepageState>(
-              builder: (context, state) {
-                return Text("Counter Value: ${state.counterValue}");
-              },
-            ),
+    return BlocProvider(
+      create: (_) => _homepageBloc,
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BlocBuilder<HomepageBloc, HomepageState>(
+                builder: (context, state) {
+                  return Text("Counter Value: ${state.counterValue}");
+                },
+              ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<HomepageBloc>().add(HomepageIncrementEvent());
-                  },
-                  child: const Text("Increment"),
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<HomepageBloc>().add(HomepageDecrementEvent());
-                  },
-                  child: const Text("Decrement"),
-                ),
-              ],
-            ),
-          ],
+              BlocBuilder<HomepageBloc, HomepageState>(
+                buildWhen: (previous, current) => false,
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<HomepageBloc>().add(
+                            HomepageIncrementEvent(),
+                          );
+                        },
+                        child: const Text("Increment"),
+                      ),
+                      const SizedBox(width: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<HomepageBloc>().add(
+                            HomepageDecrementEvent(),
+                          );
+                        },
+                        child: const Text("Decrement"),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -39,6 +39,7 @@ dependencies:
   equatable: ^2.0.8
   image_picker: ^1.2.1
   http: ^1.6.0
+  bloc_concurrency: ^0.3.0
 
 
 dev_dependencies:
